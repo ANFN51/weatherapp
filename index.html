@@ -67,6 +67,26 @@
             transform: scale(1.2);
         }
 
+        #spinner {
+            display: none;
+            margin: 20px auto;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #4682b4;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
         footer {
             margin-top: 20px;
             padding: 10px;
@@ -85,6 +105,7 @@
             <input type="text" id="city-input" placeholder="Enter city name">
             <button id="get-weather">Get Weather</button>
         </div>
+        <div id="spinner"></div>
         <div id="weather-display">
             <img id="weather-image" src="images/default.jpg" alt="Default Weather Icon">
             <div id="weather-data"></div>
@@ -96,13 +117,15 @@
     <script>
         document.getElementById("get-weather").addEventListener("click", () => {
             const city = document.getElementById("city-input").value.trim();
-            const apiKey = "your_api_key_here"; // Replace with your OpenWeather API key
+            const apiKey = "1e3b76494801a7fc69ca4b31d267389e"; 
             const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
             if (city === "") {
                 alert("Please enter a city name.");
                 return;
             }
+            const spinner = document.getElementById("spinner");
+            spinner.style.display = "block";
 
             fetch(apiUrl)
                 .then(response => response.json())
@@ -133,6 +156,9 @@
                 .catch(error => {
                     console.error("Error fetching weather data:", error);
                     alert("Something went wrong. Please try again later.");
+                })
+                .finally(() => {
+                    spinner.style.display = "none";
                 });
         });
     </script>
